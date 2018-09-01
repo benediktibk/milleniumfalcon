@@ -35,7 +35,7 @@ print("create log files if necessary")
 call(["touch", falconServiceLogFile])
 
 print("set owner of log files")
-call(["chown", "falcon-service:falcon-service", falconServiceLogFile])
+call(["chown", "falcon-service", falconServiceLogFile])
 
 print("set filesystem rights of log files")
 call(["chmod", "644", falconServiceLogFile])

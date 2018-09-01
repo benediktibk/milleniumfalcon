@@ -13,7 +13,6 @@
 PIDFILE=/var/run/falcon-service.pid
 APPLICATION=falcon-service
 USER=falcon-service
-GROUP=falcon-service
 WORKINGDIRECTORY=/usr/bin
 
 do_start () {
@@ -25,7 +24,7 @@ do_start () {
 	fi
 
 	echo "starting $APPLICATION"
-	start-stop-daemon --start --pidfile $PIDFILE --group $GROUP --chuid $USER $APPLICATION
+	start-stop-daemon --start --pidfile $PIDFILE --group nobody --chuid $USER $APPLICATION
 	echo "started $APPLICATION"
 }
 
