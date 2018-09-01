@@ -57,9 +57,9 @@ class AudioPlayer:
 class Peripherals:
 	_landingLights = PWMLED(4)
 	_ramp = PWMLED(17)
-	_cockpit = PWMLED(21)
+	_cockpit = PWMLED(27)
 	_turret = PWMLED(22)
-	_front = PWMLED(10)
+	_front = PWMLED(18)
 	
 	def __init__(self):
 		self.turnOff()
