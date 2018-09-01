@@ -37,7 +37,14 @@ class SignalHandler:
 	def checkIfShouldBeStopped(self):
 		return self._shouldStop
 		
-class AudioPlayer:
+class AudioPlayer:	
+	def play(self, audioFile):
+		pygame.mixer.music.load(audioFile)
+		pygame.mixer.music.play()
+		
+	def stop(self):
+		pygame.mixer.music.stop()
+		
 	def __init__(self):
 		pygame.mixer.init()
 		
@@ -46,25 +53,9 @@ class AudioPlayer:
 		
 	def __exit__(self, exc_type, exc_value, traceback):
 		self.stop()
-	
-	def play(self, audioFile):
-		pygame.mixer.music.load(audioFile)
-		pygame.mixer.music.play()
-		
-	def stop(self):
-		pygame.mixer.music.stop()
 		
 class Peripherals:
 	_landingLights = PWMLED(4)
-	
-	def __init__(self):
-		turnOff()
-		
-	def __enter__(self):
-		return self
-		
-	def __exit__(self, exc_type, exc_value, traceback):
-		turnOff()
 		
 	def setLandingLights(self, value):
 		self._landingLights.value = value
@@ -74,6 +65,15 @@ class Peripherals:
 		
 	def turnOn(self):
 		setLandingLights(1)
+	
+	def __init__(self):
+		turnOff()
+		
+	def __enter__(self):
+		return self
+		
+	def __exit__(self, exc_type, exc_value, traceback):
+		turnOff()
 
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
