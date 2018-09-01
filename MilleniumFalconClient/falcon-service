@@ -24,7 +24,7 @@ do_start () {
 	fi
 
 	echo "starting $APPLICATION"
-	start-stop-daemon --start --pidfile $PIDFILE --group nobody --chuid $USER $APPLICATION
+	start-stop-daemon --start --pidfile $PIDFILE --group nobody --chuid $USER --exec $APPLICATION
 	echo "started $APPLICATION"
 }
 
