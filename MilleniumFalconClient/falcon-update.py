@@ -39,3 +39,6 @@ call(["chown", "falcon-service:falcon-service", falconServiceLogFile])
 
 print("set filesystem rights of log files")
 call(["chmod", "644", falconServiceLogFile])
+
+print("install services")
+call(["update-rc.d", "falcon-service", "defaults"])
