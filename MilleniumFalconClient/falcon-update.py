@@ -42,3 +42,6 @@ call(["chmod", "644", falconServiceLogFile])
 
 print("install services")
 call(["update-rc.d", "falcon-service", "defaults"])
+
+print("configure logrotate")
+copyfile(sourcePath + "/MilleniumFalconClient/falcon-logrotate", "/etc/logrotate.d/falcon")

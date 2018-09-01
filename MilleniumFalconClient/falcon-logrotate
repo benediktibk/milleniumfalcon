@@ -1,0 +1,6 @@
+/var/log/falcon-service.log {
+  rotate 5
+  daily
+  compress
+  missingok
+}
