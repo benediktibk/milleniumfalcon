@@ -40,11 +40,11 @@ class AudioPlayer:
 	def __init__(self):
 		pygame.mixer.init()
 	
-	def play(audioFile):
+	def play(self, audioFile):
 		pygame.mixer.music.load(audioFile)
 		pygame.mixer.music.play()
 		
-	def stop():
+	def stop(self):
 		pygame.mixer.music.stop()
 
 if __name__ == '__main__':
