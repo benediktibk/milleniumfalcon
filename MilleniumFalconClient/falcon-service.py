@@ -56,6 +56,10 @@ class AudioPlayer:
 		
 class Peripherals:
 	_landingLights = PWMLED(4)
+	_ramp = PWMLED(17)
+	_cockpit = PWMLED(21)
+	_turret = PWMLED(22)
+	_front = PWMLED(10)
 	
 	def __init__(self):
 		self.turnOff()
@@ -69,11 +73,30 @@ class Peripherals:
 	def setLandingLights(self, value):
 		self._landingLights.value = value
 		
+	def setRamp(self, value):
+		self._ramp.value = value
+		
+	def setCockpit(self, value):
+		self._cockpit.value = value
+		
+	def setTurret(self, value):
+		self._turret.value = value
+		
+	def setFront(self, value):
+		self._front.value = value
+		
+	def setAll(self, value)
+		self.setLandingLights(value)
+		self.setRamp(value)
+		self.setCockpit(value)
+		self.setTurret(value)
+		self.setFront(value)
+		
 	def turnOff(self):
-		self.setLandingLights(0)
+		self.setAll(0)
 		
 	def turnOn(self):
-		self.setLandingLights(1)
+		self.setAll(1)
 
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
