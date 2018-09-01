@@ -85,7 +85,7 @@ class Peripherals:
 	def setFront(self, value):
 		self._front.value = value
 		
-	def setAll(self, value)
+	def setAll(self, value):
 		self.setLandingLights(value)
 		self.setRamp(value)
 		self.setCockpit(value)
