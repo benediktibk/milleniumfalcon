@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from subprocess import call
+from subprocess import call,check_call
 from shutil import copyfile
 
 sourcePath = "/usr/src/milleniumfalcon"
