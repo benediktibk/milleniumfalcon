@@ -3,7 +3,7 @@
 import signal
 import time
 import logging
-
+import procname
 
 logger = logging.getLogger()
 handler = logging.FileHandler("/var/log/falcon-service")
