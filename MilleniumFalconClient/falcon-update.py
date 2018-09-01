@@ -3,7 +3,7 @@
 from subprocess import call
 from shutil import copyfile
 
-sourcePath = "/usr/src/milleniumfalcon
+sourcePath = "/usr/src/milleniumfalcon"
 falconUpdate = "/usr/bin/falcon-update.py"
 
 print("checkout repository")
