@@ -4,7 +4,7 @@ import signal
 import time
 import logging
 import pygame
-from gpiozero import Button,LED
+from gpiozero import Button,PWMLED
 from ctypes import cdll, byref, create_string_buffer
 
 logger = logging.getLogger()
