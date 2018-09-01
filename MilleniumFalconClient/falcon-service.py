@@ -4,12 +4,16 @@ import signal
 import time
 import logging
 
+
 logger = logging.getLogger()
 handler = logging.FileHandler("/var/log/falcon-service")
 formatter = logging.Formatter("%(asctime)s %(name)-12s %(levelname)-8s %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
+
+logger.debug("set process name")
+procname.setprocname("falcon-service")
 
 class GracefulKiller:
   kill_now = False
