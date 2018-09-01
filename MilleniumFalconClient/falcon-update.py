@@ -16,7 +16,7 @@ check_call(["git", "pull", "--force"], cwd=sourcePath)
 print("update scripts")
 copyfile(sourcePath + "/MilleniumFalconClient/falcon-update.py", falconUpdate)
 copyfile(sourcePath + "/MilleniumFalconClient/falcon-service.py", falconService)
-copyfile(sourcePath + "/MilleniumFalconClient/falcon-service.py", falconServiceInitScript)
+copyfile(sourcePath + "/MilleniumFalconClient/falcon-service", falconServiceInitScript)
 
 print("set owner of scripts")
 call(["chown", "root:root", falconUpdate])
