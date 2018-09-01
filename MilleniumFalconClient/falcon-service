@@ -1,0 +1,70 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          falcon-service
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: falcon-service
+# Description:       falcon-service
+### END INIT INFO
+
+PIDFILE=/var/run/falcon-service.pid
+APPLICATION=falcon-service
+USER=falcon-service
+GROUP=falcon-service
+WORKINGDIRECTORY=/usr/bin
+
+do_start () {
+	start-stop-daemon --status --pidfile $PIDFILE
+
+	if [ $? -eq 0 ]; then
+		echo "$APPLICATION already running"
+		return 1
+	fi
+
+	echo "starting $APPLICATION"
+	start-stop-daemon --start --pidfile $PIDFILE --group $GROUP --chuid $USER $APPLICATION
+	echo "started $APPLICATION"
+}
+
+do_stop () {
+	echo "stopping $APPLICATION"
+	start-stop-daemon --stop --retry 5 --pidfile $PIDFILE
+	echo "stopped $APPLICATION"
+}
+
+check_status () {
+	echo "checking status of $APPLICATION"
+	start-stop-daemon --status --pidfile $PIDFILE
+
+	if [ $? -eq 0 ]; then
+		echo "$APPLICATION is running"
+	else
+		echo "$APPLICATION is not running"
+	fi
+}
+
+case "$1" in
+
+    start|stop)
+        do_${1}
+        ;;
+
+    restart|reload|force-reload)
+        do_stop
+        do_start
+        ;;
+
+    status)
+	check_status
+        ;;
+
+    *)
+        echo "Usage: /etc/init.d/$DAEMON_NAME {start|stop|restart|status}"
+        exit 1
+        ;;
+
+esac
+exit 0
