@@ -14,6 +14,7 @@ PIDFILE=/var/run/falcon-service.pid
 APPLICATION=falcon-service
 USER=falcon-service
 WORKINGDIRECTORY=/usr/bin
+DAEMON=/usr/bin/falcon-service.py
 
 do_start () {
 	start-stop-daemon --status --pidfile $PIDFILE
@@ -24,7 +25,7 @@ do_start () {
 	fi
 
 	echo "starting $APPLICATION"
-	start-stop-daemon --start --pidfile $PIDFILE --group nobody --chuid $USER --exec $APPLICATION
+	start-stop-daemon --start --pidfile $PIDFILE --group nobody --chuid $USER --exec $DAEMON
 	echo "started $APPLICATION"
 }
 
