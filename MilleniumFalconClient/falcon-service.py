@@ -40,6 +40,12 @@ class SignalHandler:
 class AudioPlayer:
 	def __init__(self):
 		pygame.mixer.init()
+		
+	def __enter__(self):
+        return self
+		
+	def __exit__(self, exc_type, exc_value, traceback):
+		self.stop()
 	
 	def play(self, audioFile):
 		pygame.mixer.music.load(audioFile)
@@ -52,24 +58,36 @@ class Peripherals:
 	_landingLights = PWMLED(4)
 	
 	def __init__(self):
-		self._landingLights.value = 0
+		turnOff()
+		
+	def __enter__(self):
+        return self
+		
+	def __exit__(self, exc_type, exc_value, traceback):
+		turnOff()
 		
 	def setLandingLights(self, value):
 		self._landingLights.value = value
+		
+	def turnOff(self):
+		setLandingLights(0)
+		
+	def turnOn(self):
+		setLandingLights(1)
 
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
-	audioPlayer = AudioPlayer()
-	peripherals = Peripherals()
 	
-	audioPlayer.play("/tmp/example.wav")
-	
-	while True:
-		time.sleep(1)
-		peripherals.setLandingLights(0)
-		time.sleep(1)
-		peripherals.setLandingLights(1)
-		if signalHandler.checkIfShouldBeStopped():
-			break
+	with AudioPlayer() as audioPlayer:
+		with Peripherals() as peripherals:		
+			audioPlayer.play("/tmp/example.wav")
+			
+			while True:
+				time.sleep(1)
+				peripherals.setLandingLights(0)
+				time.sleep(1)
+				peripherals.setLandingLights(1)
+				if signalHandler.checkIfShouldBeStopped():
+					break
 
-logger.info("stopping gracefully")
+	logger.info("stopping gracefully")
