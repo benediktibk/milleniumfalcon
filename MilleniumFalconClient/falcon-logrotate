@@ -1,4 +1,4 @@
-/var/log/falcon-service.log {
+/var/log/falcon-service {
   rotate 5
   daily
   compress
