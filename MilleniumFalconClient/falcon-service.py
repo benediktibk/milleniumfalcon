@@ -3,6 +3,7 @@
 import signal
 import time
 import logging
+import pygame
 from ctypes import cdll, byref, create_string_buffer
 
 logger = logging.getLogger()
@@ -21,23 +22,40 @@ def setprocessname(processname):
 logger.debug("set process name")
 setprocessname(b"falcon-service")
 
-class GracefulKiller:
-	kill_now = False
+class SignalHandler:
+	_shouldStop = False
+	
 	def __init__(self):
-		signal.signal(signal.SIGINT, self.exit_gracefully)
-		signal.signal(signal.SIGTERM, self.exit_gracefully)
+		signal.signal(signal.SIGINT, self.stop)
+		signal.signal(signal.SIGTERM, self.stop)
 
-	def exit_gracefully(self, signum, frame):
+	def stop(self, signum, frame):
 		logger.info("received signal to stop")
-		self.kill_now = True
+		self._shouldStop = True
+		
+	def checkIfShouldBeStopped(self):
+		return self._shouldStop
+		
+class AudioPlayer:
+	def __init__(self):
+		pygame.mixer.init()
+	
+	def play(audioFile):
+		pygame.mixer.music.load(audioFile)
+		pygame.mixer.music.play()
+		
+	def stop():
+		pygame.mixer.music.stop()
 
 if __name__ == '__main__':
-	killer = GracefulKiller()
+	signalHandler = SignalHandler()
+	audioPlayer = AudioPlayer()
+	
+	audioPlayer.start("/tmp/example.wav")
 	
 	while True:
-		time.sleep(1)
-		logger.info("doing something important")
-		if killer.kill_now:
+		time.sleep(0.1)
+		if signalHandler.checkIfShouldBeStopped():
 			break
 
 logger.info("stopping gracefully")
