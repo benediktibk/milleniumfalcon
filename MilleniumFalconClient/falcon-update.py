@@ -7,8 +7,8 @@ sourcePath = "/usr/src/milleniumfalcon
 falconUpdate = "/usr/bin/falcon-update.py"
 
 print("checkout repository")
-check_call(["git", "fetch"], cwd=sourcePath)
-check_call(["git", "checkout", "master"], cwd=sourcePath)
+check_call(["git", "fetch", "--force"], cwd=sourcePath)
+check_call(["git", "pull", "--force"], cwd=sourcePath)
 
 print("update scripts")
 copyfile(sourcePath + "/MilleniumFalconClient/falcon-update.py", falconUpdate)
