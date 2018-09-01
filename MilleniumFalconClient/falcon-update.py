@@ -14,7 +14,7 @@ print("update scripts")
 copyfile(sourcePath + "/MilleniumFalconClient/falcon-update.py", falconUpdate)
 
 print("set owner of scripts")
-call(["chown", "root:root", falconUpdate)
+call(["chown", "root:root", falconUpdate])
 
 print("make scripts executable")
-call(["chmod", "755", falconUpdate)
+call(["chmod", "755", falconUpdate])
