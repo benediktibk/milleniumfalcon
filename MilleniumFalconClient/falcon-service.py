@@ -4,6 +4,7 @@ import signal
 import time
 import logging
 import pygame
+from gpiozero import Button,LED
 from ctypes import cdll, byref, create_string_buffer
 
 logger = logging.getLogger()
@@ -46,15 +47,27 @@ class AudioPlayer:
 		
 	def stop(self):
 		pygame.mixer.music.stop()
+		
+class Peripherals:
+	_landingLights
+	def __init__(self):
+		_landingLights = PWMLED(4)
+		
+	def setLandingLights(self, value):
+		_landingLights.value = value
 
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
 	audioPlayer = AudioPlayer()
+	peripherals = Peripherals()
 	
 	audioPlayer.play("/tmp/example.wav")
 	
 	while True:
-		time.sleep(0.1)
+		time.sleep(1)
+		peripherals.setLandingLights(0)
+		time.sleep(1)
+		peripherals.setLandingLights(1)
 		if signalHandler.checkIfShouldBeStopped():
 			break
 
