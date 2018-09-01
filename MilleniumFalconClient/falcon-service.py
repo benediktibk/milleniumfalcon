@@ -19,7 +19,7 @@ def setprocessname(processname):
 	libc.prctl(15, byref(buff), 0, 0, 0)
 
 logger.debug("set process name")
-setprocessname("falcon-service")
+setprocessname(b"falcon-service")
 
 class GracefulKiller:
 	kill_now = False
