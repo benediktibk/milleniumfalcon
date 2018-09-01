@@ -49,9 +49,10 @@ class AudioPlayer:
 		pygame.mixer.music.stop()
 		
 class Peripherals:
-	_landingLights
+	_landingLights = PWMLED(4)
+	
 	def __init__(self):
-		_landingLights = PWMLED(4)
+		_landingLights.value = 0
 		
 	def setLandingLights(self, value):
 		_landingLights.value = value
