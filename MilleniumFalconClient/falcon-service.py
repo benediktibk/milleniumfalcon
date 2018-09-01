@@ -42,7 +42,7 @@ class AudioPlayer:
 		pygame.mixer.init()
 		
 	def __enter__(self):
-        return self
+		return self
 		
 	def __exit__(self, exc_type, exc_value, traceback):
 		self.stop()
@@ -61,7 +61,7 @@ class Peripherals:
 		turnOff()
 		
 	def __enter__(self):
-        return self
+		return self
 		
 	def __exit__(self, exc_type, exc_value, traceback):
 		turnOff()
