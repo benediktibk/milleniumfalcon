@@ -52,10 +52,10 @@ class Peripherals:
 	_landingLights = PWMLED(4)
 	
 	def __init__(self):
-		_landingLights.value = 0
+		self._landingLights.value = 0
 		
 	def setLandingLights(self, value):
-		_landingLights.value = value
+		self._landingLights.value = value
 
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
