@@ -2,6 +2,14 @@
 
 import signal
 import time
+import logging
+
+logger = logging.getLogger()
+handler = logging.FileHandler("/var/log/falcon-service")
+formatter = logging.Formatter("%(asctime)s %(name)-12s %(levelname)-8s %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
 
 class GracefulKiller:
   kill_now = False
@@ -9,15 +17,16 @@ class GracefulKiller:
     signal.signal(signal.SIGINT, self.exit_gracefully)
     signal.signal(signal.SIGTERM, self.exit_gracefully)
 
-  def exit_gracefully(self,signum, frame):
+  def exit_gracefully(self, signum, frame):
+    logger.info("received signal to stop")
     self.kill_now = True
 
 if __name__ == '__main__':
   killer = GracefulKiller()
   while True:
     time.sleep(1)
-    print("doing something in a loop ...")
+    logger.info("doing something important")
     if killer.kill_now:
       break
 
-  print "End of the program. I was killed gracefully :)"
+logger.info("stopping gracefully")
