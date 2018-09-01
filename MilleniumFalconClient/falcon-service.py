@@ -58,7 +58,7 @@ class Peripherals:
 	_landingLights
 	
 	def __init__(self):
-		_landingLights = PWMLED(4)
+		self._landingLights = PWMLED(4)
 		self.turnOff()
 		
 	def __enter__(self):
