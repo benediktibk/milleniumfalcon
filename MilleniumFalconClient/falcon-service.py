@@ -51,7 +51,7 @@ if __name__ == '__main__':
 	signalHandler = SignalHandler()
 	audioPlayer = AudioPlayer()
 	
-	audioPlayer.start("/tmp/example.wav")
+	audioPlayer.play("/tmp/example.wav")
 	
 	while True:
 		time.sleep(0.1)
