@@ -6,6 +6,7 @@ import logging
 import pygame
 from gpiozero import Button,PWMLED,LED
 from ctypes import cdll, byref, create_string_buffer
+from math import exp
 
 logger = logging.getLogger()
 handler = logging.FileHandler("/var/log/falcon-service")
@@ -80,7 +81,7 @@ class Peripherals:
 			raise ValueError('the value for an output must be within the range 0 and 1')
 		
 		value = 1 - value
-		
+		value = exp(value)/exp(1)
 		logger.debug('compensated value is ' + '{:.2f}'.format(value))
 		return value
 		
