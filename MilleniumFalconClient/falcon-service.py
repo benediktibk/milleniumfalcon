@@ -96,16 +96,15 @@ class Peripherals:
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
 	
-	with AudioPlayer() as audioPlayer:
-		with Peripherals() as peripherals:		
-			audioPlayer.play("/tmp/example.wav")
-			
-			while True:
-				time.sleep(1)
-				peripherals.setLandingLights(0)
-				time.sleep(1)
-				peripherals.setLandingLights(1)
-				if signalHandler.checkIfShouldBeStopped():
-					break
+	with Peripherals() as peripherals:
+		while True:
+			for x in range(0, 100):
+					value = x/100
+					logger.info('setting value ' + '{:.2f}'.format(value))
+					peripherals.setFront(value)
+					time.sleep(0.1)
+
+			if signalHandler.checkIfShouldBeStopped():
+				break
 
 	logger.info("stopping gracefully")
