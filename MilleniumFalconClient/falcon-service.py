@@ -76,7 +76,7 @@ class Peripherals:
 	
 	def compensateOutputCharacteristics(self, value):
 		logger.debug('compensating output characteristic for value ' + '{:.2f}'.format(value))
-		if (value < 0 || value > 1):
+		if value < 0 or value > 1:
 			raise ValueError('the value for an output must be within the range 0 and 1')
 		
 		value = 1 - value
