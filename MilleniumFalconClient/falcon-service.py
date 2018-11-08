@@ -86,10 +86,10 @@ class Peripherals:
 		self.setFront(value)
 		
 	def turnOff(self):
-		_mainSwitch.off()
+		self._mainSwitch.off()
 		
 	def turnOn(self):
-		_mainSwitch.on()
+		self._mainSwitch.on()
 
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
