@@ -4,7 +4,7 @@ import signal
 import time
 import logging
 import pygame
-from gpiozero import Button,PWMLED
+from gpiozero import Button,PWMLED,LED
 from ctypes import cdll, byref, create_string_buffer
 
 logger = logging.getLogger()
@@ -55,11 +55,10 @@ class AudioPlayer:
 		pygame.mixer.music.stop()
 		
 class Peripherals:
-	_landingLights = PWMLED(4)
-	_ramp = PWMLED(17)
+	_mainSwitch = LED(17)
 	_cockpit = PWMLED(27)
 	_turret = PWMLED(22)
-	_front = PWMLED(18)
+	_front = PWMLED(4)
 	
 	def __init__(self):
 		self.turnOff()
@@ -69,12 +68,6 @@ class Peripherals:
 		
 	def __exit__(self, exc_type, exc_value, traceback):
 		self.turnOff()
-		
-	def setLandingLights(self, value):
-		self._landingLights.value = value
-		
-	def setRamp(self, value):
-		self._ramp.value = value
 		
 	def setCockpit(self, value):
 		self._cockpit.value = value
@@ -94,9 +87,11 @@ class Peripherals:
 		
 	def turnOff(self):
 		self.setAll(0)
+		_mainSwitch.off()
 		
 	def turnOn(self):
 		self.setAll(1)
+		_mainSwitch.on()
 
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
