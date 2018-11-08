@@ -86,18 +86,18 @@ class Peripherals:
 		
 	def setCockpit(self, value):
 		logger.debug('setting value ' + '{:.2f}'.format(value) + ' for cockpit')
-		value = self.compensateOutputCharacteristics(value)
-		self._cockpit.value = value
+		compensatedValue = self.compensateOutputCharacteristics(value)
+		self._cockpit.value = compensatedValue
 		
 	def setTurret(self, value):
 		logger.debug('setting value ' + '{:.2f}'.format(value) + ' for turret')
-		value = self.compensateOutputCharacteristics(value)
-		self._turret.value = value
+		compensatedValue = self.compensateOutputCharacteristics(value)
+		self._turret.value = compensatedValue
 		
 	def setFront(self, value):
 		logger.debug('setting value ' + '{:.2f}'.format(value) + ' for front')
-		value = self.compensateOutputCharacteristics(value)
-		self._front.value = value
+		compensatedValue = self.compensateOutputCharacteristics(value)
+		self._front.value = compensatedValue
 		
 	def setAll(self, value):
 		self.setCockpit(value)
