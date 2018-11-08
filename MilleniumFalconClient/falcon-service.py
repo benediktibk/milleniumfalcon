@@ -105,9 +105,9 @@ if __name__ == '__main__':
 	with Peripherals() as peripherals:
 		while True:
 			for x in range(0, 100):
-					value = x/100
-					peripherals.setFront(value)
-					time.sleep(0.1)
+				value = x/100
+				peripherals.setFront(value)
+				time.sleep(0.1)
 
 			if signalHandler.checkIfShouldBeStopped():
 				break
