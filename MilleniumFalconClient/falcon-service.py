@@ -73,17 +73,30 @@ class Peripherals:
 		logger.info("destroying peripherals")
 		self.setAll(0)
 		self.turnOff()
+	
+	def compensateOutputCharacteristics(self, value):
+		logger.debug('compensating output characteristic for value ' + '{:.2f}'.format(value))
+		if (value < 0 || value > 1):
+			raise ValueError('the value for an output must be within the range 0 and 1')
+		
+		value = 1 - value
+		
+		logger.debug('compensated value is ' + '{:.2f}'.format(value))
+		return value
 		
 	def setCockpit(self, value):
 		logger.debug('setting value ' + '{:.2f}'.format(value) + ' for cockpit')
+		value = self.compensateOutputCharacteristics(value)
 		self._cockpit.value = value
 		
 	def setTurret(self, value):
 		logger.debug('setting value ' + '{:.2f}'.format(value) + ' for turret')
+		value = self.compensateOutputCharacteristics(value)
 		self._turret.value = value
 		
 	def setFront(self, value):
 		logger.debug('setting value ' + '{:.2f}'.format(value) + ' for front')
+		value = self.compensateOutputCharacteristics(value)
 		self._front.value = value
 		
 	def setAll(self, value):
@@ -113,4 +126,3 @@ if __name__ == '__main__':
 				break
 
 	logger.info("stopping gracefully")
-	time.sleep(10)
