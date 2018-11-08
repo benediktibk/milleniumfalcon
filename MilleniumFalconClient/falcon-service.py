@@ -81,7 +81,8 @@ class Peripherals:
 			raise ValueError('the value for an output must be within the range 0 and 1')
 		
 		value = 1 - value
-		value = exp(value)/exp(1)
+		nonlinearBase = 10
+		value = (nonlinearBase**value)/(nonlinearBase**1)
 		logger.debug('compensated value is ' + '{:.2f}'.format(value))
 		return value
 		
