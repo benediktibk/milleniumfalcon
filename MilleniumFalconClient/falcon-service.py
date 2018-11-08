@@ -61,12 +61,14 @@ class Peripherals:
 	_front = PWMLED(4)
 	
 	def __init__(self):
-		self.turnOff()
+		self.setAll(0)
+		self.turnOn()
 		
 	def __enter__(self):
 		return self
 		
 	def __exit__(self, exc_type, exc_value, traceback):
+		self.setAll(0)
 		self.turnOff()
 		
 	def setCockpit(self, value):
@@ -86,11 +88,9 @@ class Peripherals:
 		self.setFront(value)
 		
 	def turnOff(self):
-		self.setAll(0)
 		_mainSwitch.off()
 		
 	def turnOn(self):
-		self.setAll(1)
 		_mainSwitch.on()
 
 if __name__ == '__main__':
