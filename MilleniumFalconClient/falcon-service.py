@@ -37,7 +37,7 @@ class SignalHandler:
 	def checkIfShouldBeStopped(self):
 		return self._shouldStop
 		
-class AudioPlayer:			
+class AudioPlayer:
 	def __init__(self):
 		pygame.mixer.init()
 		
@@ -61,6 +61,7 @@ class Peripherals:
 	_front = PWMLED(4)
 	
 	def __init__(self):
+		logger.info("initializing peripherals")
 		self.setAll(0)
 		self.turnOn()
 		
@@ -68,16 +69,20 @@ class Peripherals:
 		return self
 		
 	def __exit__(self, exc_type, exc_value, traceback):
+		logger.info("destroying peripherals")
 		self.setAll(0)
 		self.turnOff()
 		
 	def setCockpit(self, value):
+		logger.debug('setting value ' + '{:.2f}'.format(value) + 'for cockpit')
 		self._cockpit.value = value
 		
 	def setTurret(self, value):
+		logger.debug('setting value ' + '{:.2f}'.format(value) + 'for turret')
 		self._turret.value = value
 		
 	def setFront(self, value):
+		logger.debug('setting value ' + '{:.2f}'.format(value) + 'for front')
 		self._front.value = value
 		
 	def setAll(self, value):
@@ -86,9 +91,11 @@ class Peripherals:
 		self.setFront(value)
 		
 	def turnOff(self):
+		logger.info('turning main switch off')
 		self._mainSwitch.off()
 		
 	def turnOn(self):
+		logger.info('turning main switch on')
 		self._mainSwitch.on()
 
 if __name__ == '__main__':
@@ -98,7 +105,6 @@ if __name__ == '__main__':
 		while True:
 			for x in range(0, 100):
 					value = x/100
-					logger.info('setting value ' + '{:.2f}'.format(value))
 					peripherals.setFront(value)
 					time.sleep(0.1)
 
