@@ -81,7 +81,7 @@ class Peripherals:
 			raise ValueError('the value for an output must be within the range 0 and 1')
 		
 		value = 1 - value
-		nonlinearBase = 10
+		nonlinearBase = 100
 		value = (nonlinearBase**value)/(nonlinearBase**1)
 		logger.debug('compensated value is ' + '{:.2f}'.format(value))
 		return value
@@ -119,10 +119,10 @@ if __name__ == '__main__':
 	
 	with Peripherals() as peripherals:
 		while True:
-			for x in range(0, 1000):
-				value = x/1000
+			for x in range(0, 10):
+				value = x/10
 				peripherals.setFront(value)
-				time.sleep(0.01)
+				time.sleep(0.2)
 
 			if signalHandler.checkIfShouldBeStopped():
 				break
