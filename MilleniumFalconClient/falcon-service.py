@@ -75,15 +75,15 @@ class Peripherals:
 		self.turnOff()
 		
 	def setCockpit(self, value):
-		logger.debug('setting value ' + '{:.2f}'.format(value) + 'for cockpit')
+		logger.debug('setting value ' + '{:.2f}'.format(value) + ' for cockpit')
 		self._cockpit.value = value
 		
 	def setTurret(self, value):
-		logger.debug('setting value ' + '{:.2f}'.format(value) + 'for turret')
+		logger.debug('setting value ' + '{:.2f}'.format(value) + ' for turret')
 		self._turret.value = value
 		
 	def setFront(self, value):
-		logger.debug('setting value ' + '{:.2f}'.format(value) + 'for front')
+		logger.debug('setting value ' + '{:.2f}'.format(value) + ' for front')
 		self._front.value = value
 		
 	def setAll(self, value):
