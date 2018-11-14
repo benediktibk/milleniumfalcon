@@ -137,3 +137,4 @@ if __name__ == '__main__':
 					break
 
 	logger.info("stopping gracefully")
+	time.sleep(1)
