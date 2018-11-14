@@ -3,7 +3,7 @@
 import signal
 import time
 import logging
-from subprocess import subprocess
+import subprocess
 from gpiozero import Button,PWMLED,LED
 from ctypes import cdll, byref, create_string_buffer
 from math import exp
