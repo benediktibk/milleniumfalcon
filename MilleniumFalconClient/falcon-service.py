@@ -40,12 +40,8 @@ class SignalHandler:
 		return self._shouldStop
 		
 class AudioPlayer:
-	def __init__(self):
-		
 	def __enter__(self):
 		return self
-		
-	def __exit__(self, exc_type, exc_value, traceback):
 		
 	def play(self, audioFile):
 		self._player = subprocess.Popen(['omxplayer', audioFile])
