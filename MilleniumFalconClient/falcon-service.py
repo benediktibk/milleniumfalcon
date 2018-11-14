@@ -3,7 +3,7 @@
 import signal
 import time
 import logging
-import pygame
+from subprocess import subprocess
 from gpiozero import Button,PWMLED,LED
 from ctypes import cdll, byref, create_string_buffer
 from math import exp
@@ -41,20 +41,18 @@ class SignalHandler:
 		
 class AudioPlayer:
 	def __init__(self):
-		pygame.mixer.init()
 		
 	def __enter__(self):
 		return self
 		
 	def __exit__(self, exc_type, exc_value, traceback):
-		self.stop()
 		
 	def play(self, audioFile):
-		pygame.mixer.music.load(audioFile)
-		pygame.mixer.music.play()
+		self._player = subprocess.Popen(['omxplayer', audioFile])
 		
 	def stop(self):
-		pygame.mixer.music.stop()
+		self._player.terminate()
+		self._player.wait()
 		
 class Peripherals:
 	_mainSwitch = LED(17)
