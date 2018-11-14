@@ -41,20 +41,27 @@ class SignalHandler:
 		
 class AudioPlayer:
 	def __init__(self):
+		logger.info("initializing audio player")
 		pass
 		
 	def __enter__(self):
 		return self
 		
 	def __exit__(self, exc_type, exc_value, traceback):
+		logger.info("destroying audio player")
 		self.stop()
 		
 	def play(self, audioFile):
+		logger.info("starting to play " + audioFile)
 		self._player = subprocess.Popen(['omxplayer', audioFile])
 		
 	def stop(self):
-		self._player.terminate()
-		self._player.wait()
+		logger.info("checking if it is necessary to stop the playback process")
+		if hasattr(self, '_player'):
+			logger.info("terminating playback process")
+			self._player.terminate()
+			logger.info("waiting till playback process exits")
+			self._player.wait()
 		
 class Peripherals:
 	_mainSwitch = LED(17)
