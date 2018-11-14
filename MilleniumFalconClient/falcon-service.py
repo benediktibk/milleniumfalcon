@@ -40,8 +40,14 @@ class SignalHandler:
 		return self._shouldStop
 		
 class AudioPlayer:
+	def __init__(self):
+		pass
+		
 	def __enter__(self):
 		return self
+		
+	def __exit__(self, exc_type, exc_value, traceback):
+		self.stop()
 		
 	def play(self, audioFile):
 		self._player = subprocess.Popen(['omxplayer', audioFile])
@@ -110,17 +116,17 @@ class Peripherals:
 
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
-	audioPlayer = AudioPlayer()
-	audioPlayer.play('/root/example.wav')
 	
-	with Peripherals() as peripherals:
-		while True:
-			for x in range(0, 10):
-				value = x/10
-				peripherals.setFront(value)
-				time.sleep(0.2)
+	with AudioPlayer() as audioPlayer:
+		with Peripherals() as peripherals:
+			audioPlayer.play('/root/example.wav')
+			while True:
+				for x in range(0, 10):
+					value = x/10
+					peripherals.setFront(value)
+					time.sleep(0.2)
 
-			if signalHandler.checkIfShouldBeStopped():
-				break
+				if signalHandler.checkIfShouldBeStopped():
+					break
 
 	logger.info("stopping gracefully")
