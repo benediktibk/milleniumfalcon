@@ -75,7 +75,7 @@ class LedStrip:
 	
 	def __init__(self):
 		logger.info("initializing led strip")
-		self._ledStrip = Adafruit_NeoPixel(_ledCount, _ledPin, _ledFrequency, _ledDma, _ledInvert, _ledBrightness, _ledChannel)
+		self._ledStrip = Adafruit_NeoPixel(self._ledCount, self._ledPin, self._ledFrequency, self._ledDma, self._ledInvert, self._ledBrightness, self._ledChannel)
 		self._ledStrip.begin()
 		
 	def __enter__(self):
@@ -87,14 +87,14 @@ class LedStrip:
 		
 	def turnOff(self):
 		logger.info("turning all pixel off")
-		for i in range(_ledCount):
+		for i in range(self._ledCount):
 			self._ledStrip.setPixelColor(i, Color(0, 0, 0))
 		self._ledStrip.show()
 		
 	def setPixelColor(self, pixel, color):
 		logger.info("setting color for pixel " + pixel)
-		if pixel < 0 or pixel >= _ledCount:
-			raise ValueError('the pixel index must be within 0 and ' + _ledCount)
+		if pixel < 0 or pixel >= self._ledCount:
+			raise ValueError('the pixel index must be within 0 and ' + self._ledCount)
 		self._ledStrip.setPixelColor(pixel, color)
 		
 class Peripherals:
