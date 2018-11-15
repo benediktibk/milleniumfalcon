@@ -7,6 +7,7 @@ import subprocess
 from gpiozero import Button,PWMLED,LED
 from ctypes import cdll, byref, create_string_buffer
 from math import exp
+from neopixel import Adafruit_NeoPixel, Color
 
 logger = logging.getLogger()
 handler = logging.FileHandler("/var/log/falcon-service")
@@ -63,11 +64,45 @@ class AudioPlayer:
 			logger.info("waiting till playback process exits")
 			self._player.wait()
 		
+class LedStrip:
+	_ledCount = 100
+	_ledPin = 18
+	_ledFrequency = 800000
+	_ledDma = 10
+	_ledInvert = false
+	_ledBrightness = 255
+	_ledChannel = 0
+	
+	def __init__(self):
+		logger.info("initializing led strip")
+		self._ledStrip = Adafruit_NeoPixel(_ledCount, _ledPin, _ledFrequency, _ledDma, _ledInvert, _ledBrightness, _ledChannel)
+		self._ledStrip.begin()
+		
+	def __enter__(self):
+		return self
+		
+	def __exit__(self, exc_type, exc_value, traceback):
+		logger.info("destroying led strip")
+		self.turnOff()
+		
+	def turnOff(self):
+		logger.info("turning all pixel off")
+		for i in range(_ledCount):
+			self._ledStrip.setPixelColor(i, Color(0, 0, 0))
+		self._ledStrip.show()
+		
+	def setPixelColor(self, pixel, color):
+		logger.info("setting color for pixel " + pixel)
+		if pixel < 0 or pixel >= _ledCount:
+			raise ValueError('the pixel index must be within 0 and ' + _ledCount)
+		self._ledStrip.setPixelColor(pixel, color)
+		
 class Peripherals:
 	_mainSwitch = LED(17)
 	_cockpit = PWMLED(27)
 	_turret = PWMLED(22)
 	_front = PWMLED(4)
+	_drive = LedStrip()
 	
 	def __init__(self):
 		logger.info("initializing peripherals")
@@ -81,6 +116,7 @@ class Peripherals:
 		logger.info("destroying peripherals")
 		self.setAll(0)
 		self.turnOff()
+		self._drive.__exit__(exc_type, exc_value, traceback)
 	
 	def compensateOutputCharacteristics(self, value):
 		logger.debug('compensating output characteristic for value ' + '{:.2f}'.format(value))
@@ -120,13 +156,13 @@ class Peripherals:
 	def turnOn(self):
 		logger.info('turning main switch on')
 		self._mainSwitch.on()
-
+		
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
 	
 	with AudioPlayer() as audioPlayer:
 		with Peripherals() as peripherals:
-			audioPlayer.play('/root/example.wav')
+			#audioPlayer.play('/root/example.wav')
 			while True:
 				for x in range(0, 10):
 					value = x/10
