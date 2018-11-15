@@ -69,7 +69,7 @@ class LedStrip:
 	_ledPin = 18
 	_ledFrequency = 800000
 	_ledDma = 10
-	_ledInvert = false
+	_ledInvert = False
 	_ledBrightness = 255
 	_ledChannel = 0
 	
