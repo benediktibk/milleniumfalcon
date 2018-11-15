@@ -92,7 +92,7 @@ class LedStrip:
 		self._ledStrip.show()
 		
 	def setPixelColor(self, pixel, color):
-		logger.info("setting color for pixel " + pixel)
+		logger.info("setting color for pixel " + str(pixel))
 		if pixel < 0 or pixel >= self._ledCount:
 			raise ValueError('the pixel index must be within 0 and ' + self._ledCount)
 		self._ledStrip.setPixelColor(pixel, color)
