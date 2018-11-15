@@ -157,7 +157,7 @@ class Peripherals:
 		logger.info('turning main switch on')
 		self._mainSwitch.on()
 		
-	def setDrive(self, pixel, color)
+	def setDrive(self, pixel, color):
 		self._drive.setPixelColor(pixel, color)
 		
 if __name__ == '__main__':
