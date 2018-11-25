@@ -159,10 +159,10 @@ class Peripherals:
 	def setDrive(self, pixel, color):
 		self._drive.setPixelColor(pixel, color)
 		
-	def shouldContinue(self)
+	def shouldContinue(self):
 		return self._start.is_pressed
 		
-	def waitForStart(self)
+	def waitForStart(self):
 		logger.info('waiting for start')
 		self._start.wait_for_press()
 		
