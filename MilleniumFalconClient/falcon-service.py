@@ -96,6 +96,7 @@ class LedStrip:
 		if pixel < 0 or pixel >= self._ledCount:
 			raise ValueError('the pixel index must be within 0 and ' + self._ledCount)
 		self._ledStrip.setPixelColor(pixel, color)
+		self._ledStrip.show()
 		
 class Peripherals:
 	_mainSwitch = LED(17)
