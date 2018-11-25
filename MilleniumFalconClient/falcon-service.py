@@ -3,7 +3,7 @@
 import signal
 import time
 import logging
-import subprocess
+import pygame
 from gpiozero import Button,PWMLED,LED
 from ctypes import cdll, byref, create_string_buffer
 from math import exp
@@ -43,7 +43,7 @@ class SignalHandler:
 class AudioPlayer:
 	def __init__(self):
 		logger.info("initializing audio player")
-		pass
+		pygame.mixer.init()
 		
 	def __enter__(self):
 		return self
@@ -54,15 +54,12 @@ class AudioPlayer:
 		
 	def play(self, audioFile):
 		logger.info("starting to play " + audioFile)
-		self._player = subprocess.Popen(['omxplayer', audioFile])
+		pygame.mixer.music.load(audioFile)
+		pygame.mixer.music.play()
 		
 	def stop(self):
 		logger.info("checking if it is necessary to stop the playback process")
-		if hasattr(self, '_player'):
-			logger.info("terminating playback process")
-			self._player.terminate()
-			logger.info("waiting till playback process exits")
-			self._player.wait()
+		pygame.mixer.music.stop()
 		
 class LedStrip:
 	_ledCount = 100
@@ -166,7 +163,7 @@ if __name__ == '__main__':
 	
 	with AudioPlayer() as audioPlayer:
 		with Peripherals() as peripherals:
-			#audioPlayer.play('/root/example.wav')
+			audioPlayer.play('/root/example.wav')
 			while True:
 				for x in range(0, 10):
 					value = x/10
