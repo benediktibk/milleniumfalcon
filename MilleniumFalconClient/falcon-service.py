@@ -101,6 +101,7 @@ class Peripherals:
 	_turret = PWMLED(22)
 	_front = PWMLED(4)
 	_drive = LedStrip()
+	_start = Button(23)
 	
 	def __init__(self):
 		logger.info("initializing peripherals")
@@ -158,20 +159,37 @@ class Peripherals:
 	def setDrive(self, pixel, color):
 		self._drive.setPixelColor(pixel, color)
 		
+	def shouldContinue(self)
+		return self._start.is_pressed
+		
+	def waitForStart(self)
+		logger.info('waiting for start')
+		self._start.wait_for_press()
+		
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
 	
-	with AudioPlayer() as audioPlayer:
-		with Peripherals() as peripherals:
-			audioPlayer.play('/root/example.wav')
+	with Peripherals() as peripherals:
+		with AudioPlayer() as audioPlayer:		
 			while True:
-				for x in range(0, 10):
-					value = x/10
-					peripherals.setFront(value)
-					peripherals.setDrive(x, Color(255, 255, 255))
-					time.sleep(0.2)
-					peripherals.setDrive(x, Color(0, 0, 0))
+				peripherals.waitForStart()
+				
+				audioPlayer.play('/root/example.wav')
+				
+				while peripherals.shouldContinue():
+					for x in range(0, 10):
+						value = x/10
+						peripherals.setFront(value)
+						peripherals.setDrive(x, Color(255, 255, 255))
+						time.sleep(0.2)
+						peripherals.setDrive(x, Color(0, 0, 0))
 
+					if signalHandler.checkIfShouldBeStopped():
+						break
+				
+				peripherals.turnOff()
+				audioPlayer.stop()
+				
 				if signalHandler.checkIfShouldBeStopped():
 					break
 
