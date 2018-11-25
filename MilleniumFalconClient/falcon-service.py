@@ -58,7 +58,7 @@ class AudioPlayer:
 		pygame.mixer.music.play()
 		
 	def stop(self):
-		logger.info("checking if it is necessary to stop the playback process")
+		logger.info("stopping audio playback")
 		pygame.mixer.music.stop()
 		
 class LedStrip:
