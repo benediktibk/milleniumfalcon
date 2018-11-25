@@ -159,36 +159,37 @@ class Peripherals:
 	def setDrive(self, pixel, color):
 		self._drive.setPixelColor(pixel, color)
 		
-	def shouldContinue(self):
+	def shouldRun(self):
 		return self._start.is_pressed
-		
-	def waitForStart(self):
-		logger.info('waiting for start')
-		self._start.wait_for_press()
 		
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
 	
 	with Peripherals() as peripherals:
-		with AudioPlayer() as audioPlayer:		
+		with AudioPlayer() as audioPlayer:
 			while True:
-				peripherals.waitForStart()
-				
-				audioPlayer.play('/root/example.wav')
-				
-				while peripherals.shouldContinue():
-					for x in range(0, 10):
-						value = x/10
-						peripherals.setFront(value)
-						peripherals.setDrive(x, Color(255, 255, 255))
-						time.sleep(0.2)
-						peripherals.setDrive(x, Color(0, 0, 0))
+				if peripherals.shouldRun():
+					logger.info('starting sequence')
+					peripherals.turnOn()
+					
+					audioPlayer.play('/root/example.wav')
+					
+					while peripherals.shouldRun():
+						for x in range(0, 10):
+							value = x/10
+							peripherals.setFront(value)
+							peripherals.setDrive(x, Color(255, 255, 255))
+							time.sleep(0.2)
+							peripherals.setDrive(x, Color(0, 0, 0))
 
-					if signalHandler.checkIfShouldBeStopped():
-						break
-				
-				peripherals.turnOff()
-				audioPlayer.stop()
+						if signalHandler.checkIfShouldBeStopped():
+							break
+					
+					logger.info('stopping sequence')
+					peripherals.turnOff()
+					audioPlayer.stop()
+				else:
+					time.sleep(0.1)
 				
 				if signalHandler.checkIfShouldBeStopped():
 					break
