@@ -224,7 +224,7 @@ class Falcon:
 			current = time.time()
 			iterationStep = int((current - start)*1000/iterationStepInMilliseconds)
 			logger.info('iteration step ' + str(iterationStep))
-			waitTime = ((iterationStep + 1) * iterationStepInMilliseconds + start) - current
+			waitTime = (((iterationStep + 1) * iterationStepInMilliseconds)/1000 + start) - current
 			
 			#do stuff
 			
