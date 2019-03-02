@@ -220,6 +220,7 @@ class Falcon:
 		iterationStepInMilliseconds = 200
 		
 		while current < sequenceLengthInMilliseconds:
+			logger.info('position ' + current + 'ms')
 			time.sleep(iterationStepInMilliseconds)
 			current = current = + iterationStepInMilliseconds
 			
