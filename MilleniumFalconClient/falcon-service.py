@@ -215,7 +215,7 @@ class Falcon:
 		logger.info('sequence should run')
 		self._audioPlayer.play('/usr/share/falcon/audio/take_off.wav')
 		sequenceLengthInSeconds = 2*60 + 3
-		sequenceLengthInMilliseconds = sequenceLengthInSeconds/1000
+		sequenceLengthInMilliseconds = sequenceLengthInSeconds*1000
 		current = 0
 		iterationStepInMilliseconds = 200
 		
