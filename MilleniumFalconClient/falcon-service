@@ -12,7 +12,7 @@
 
 PIDFILE=/var/run/falcon-service.pid
 APPLICATION=falcon-service
-USER=falcon-service
+USER=root
 WORKINGDIRECTORY=/usr/bin
 DAEMON=/usr/bin/falcon-service.py
 
