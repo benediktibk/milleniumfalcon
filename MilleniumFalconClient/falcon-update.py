@@ -45,3 +45,8 @@ call(["update-rc.d", "falcon-service", "defaults"])
 
 print("configure logrotate")
 copyfile(sourcePath + "/MilleniumFalconClient/falcon-logrotate", "/etc/logrotate.d/falcon")
+
+print("copy audio files")
+copyfile(sourcePath + "/MilleniumFalconClient/audio/bootup_sequence_initialized.wav", "/usr/share/falcon/audio/bootup_sequence_initialized.wav")
+copyfile(sourcePath + "/MilleniumFalconClient/audio/bootup_sequence_finished.wav", "/usr/share/falcon/audio/bootup_sequence_finished.wav")
+copyfile(sourcePath + "/MilleniumFalconClient/audio/take_off.wav", "/usr/share/falcon/audio/take_off.wav")
