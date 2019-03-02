@@ -163,6 +163,8 @@ class Peripherals:
 		return self._start.is_pressed
 		
 class Falcon:
+	_sequenceExecuted = False
+
 	def __init__(self, signalHandler):
 		logger.info("initializing led falcon")
 		self._peripherals = Peripherals()
@@ -210,6 +212,7 @@ class Falcon:
 		
 	def runOnce(self):
 		if not self._peripherals.shouldRun():
+			self._sequenceExecuted = False
 			return
 			
 		logger.info('sequence should run')
@@ -241,6 +244,7 @@ class Falcon:
 				break
 		
 		self._audioPlayer.stop()
+		self._sequenceExecuted = True
 
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
