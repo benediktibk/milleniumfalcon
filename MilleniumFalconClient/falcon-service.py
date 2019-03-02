@@ -177,6 +177,7 @@ class Falcon:
 		self._audioPlayer.__exit__(exc_type, exc_value, traceback)
 		
 	def bootSequence(self):
+		logger.info('starting boot sequence')
 		self._audioPlayer.play('/usr/share/falcon/audio/bootup_sequence_initialized.wav')
 		time.sleep(2.4)
 		
@@ -205,6 +206,7 @@ class Falcon:
 		
 		self._audioPlayer.play('/usr/share/falcon/audio/bootup_sequence_finished.wav')
 		time.sleep(3.5)
+		logger.info('finished boot sequence')
 		
 	def runOnce(self):
 		if not self._peripherals.shouldRun():
