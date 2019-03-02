@@ -218,7 +218,7 @@ class Falcon:
 		sequenceLengthInMilliseconds = sequenceLengthInSeconds*1000
 		current = 0
 		iterationStepInMilliseconds = 200
-		totalIterationSteps = sequenceLengthInMilliseconds / iterationStepInMilliseconds + 1
+		totalIterationSteps = int(sequenceLengthInMilliseconds / iterationStepInMilliseconds) + 1
 		start = time.time()
 		
 		while (current - start)*1000 < sequenceLengthInMilliseconds:
