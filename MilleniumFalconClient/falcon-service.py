@@ -228,7 +228,7 @@ class Falcon:
 			
 			#do stuff
 			
-			logger.info('waiting for ' + '{:.2f}'.format(value) + 's')
+			logger.info('waiting for ' + '{:.2f}'.format(waitTime) + 's')
 			time.sleep(waitTime)
 			
 			if not self._peripherals.shouldRun():
