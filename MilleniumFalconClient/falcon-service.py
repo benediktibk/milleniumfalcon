@@ -218,11 +218,18 @@ class Falcon:
 		sequenceLengthInMilliseconds = sequenceLengthInSeconds*1000
 		current = 0
 		iterationStepInMilliseconds = 200
+		start = time.time()
 		
-		while current < sequenceLengthInMilliseconds:
-			logger.info('position ' + str(current) + 'ms')
-			time.sleep(iterationStepInMilliseconds/1000)
-			current = current = + iterationStepInMilliseconds
+		while (current - start)*1000 < sequenceLengthInMilliseconds:
+			current = time.time()
+			iterationStep = int((current - start)*1000/iterationStepInMilliseconds)
+			logger.info('iteration step ' + str(iterationStep))
+			waitTime = ((iterationStep + 1) * iterationStepInMilliseconds + start) - current
+			
+			#do stuff
+			
+			logger.info('waiting for ' + '{:.2f}'.format(value) + 's')
+			time.sleep(waitTime)
 			
 			if not self._peripherals.shouldRun():
 				logger.info('sequence should stop due to user input')
