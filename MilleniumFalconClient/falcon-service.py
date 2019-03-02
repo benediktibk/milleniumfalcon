@@ -162,37 +162,79 @@ class Peripherals:
 	def shouldRun(self):
 		return self._start.is_pressed
 		
+class Falcon:
+	def __init__(self, signalHandler):
+		logger.info("initializing led falcon")
+		self._peripherals = Peripherals()
+		self._audioPlayer = AudioPlayer()
+		self._signalHandler = signalHandler
+		
+	def __enter__(self):
+		return self
+		
+	def __exit__(self, exc_type, exc_value, traceback):
+		self._peripherals.__exit__(exc_type, exc_value, traceback)
+		self._audioPlayer.__exit__(exc_type, exc_value, traceback)
+		
+	def bootSequence(self):
+		self._audioPlayer.play('/usr/share/falcon/audio/bootup_sequence_initialized.wav')
+		time.sleep(2.4)
+		
+		for x in range(0, 10):
+			value = x/10
+			self._peripherals.setFront(value)
+			time.sleep(0.1)
+		self._peripherals.setFront(0)
+		
+		for x in range(0, 10):
+			value = x/10
+			self._peripherals.setCockpit(value)
+			time.sleep(0.1)
+		self._peripherals.setCockpit(0)
+		
+		for x in range(0, 10):
+			value = x/10
+			self._peripherals.setTurret(value)
+			time.sleep(0.1)
+		self._peripherals.setTurret(0)
+		
+		for x in range(0, 10):
+			self._peripherals.setDrive(x, Color(255, 255, 255))
+			time.sleep(0.1)
+			self._peripherals.setDrive(x, Color(0, 0, 0))
+		
+		self._audioPlayer.play('/usr/share/falcon/audio/bootup_sequence_finished.wav')
+		time.sleep(3.5)
+		
+	def runOnce(self):
+		if not self._peripherals.shouldRun():
+			return
+			
+		logger.info('sequence should run')
+		self._audioPlayer.play('/usr/share/falcon/audio/take_off.wav')
+		sequenceLengthInSeconds = 2*60 + 3
+		sequenceLengthInMilliseconds = sequenceLengthInSeconds/1000
+		current = 0
+		iterationStepInMilliseconds = 200
+		
+		while current < sequenceLengthInMilliseconds:
+			time.sleep(iterationStepInMilliseconds)
+			current = current = + iterationStepInMilliseconds
+			
+			if not self._peripherals.shouldRun():
+				logger.info('sequence should stop')
+				break
+		
+		self._audioPlayer.stop()
+
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
 	
-	with Peripherals() as peripherals:
-		with AudioPlayer() as audioPlayer:
-			while True:
-				if peripherals.shouldRun():
-					logger.info('starting sequence')
-					peripherals.turnOn()
-					
-					audioPlayer.play('/root/example.wav')
-					
-					while peripherals.shouldRun():
-						for x in range(0, 10):
-							value = x/10
-							peripherals.setFront(value)
-							peripherals.setDrive(x, Color(255, 255, 255))
-							time.sleep(0.2)
-							peripherals.setDrive(x, Color(0, 0, 0))
-
-						if signalHandler.checkIfShouldBeStopped():
-							break
-					
-					logger.info('stopping sequence')
-					peripherals.turnOff()
-					audioPlayer.stop()
-				else:
-					time.sleep(0.1)
-				
-				if signalHandler.checkIfShouldBeStopped():
-					break
+	with Falcon(signalHandler) as falcon:
+		falcon.bootSequence()
+		
+		while not signalHandler.checkIfShouldBeStopped():
+			falcon.runOnce()
+			time.sleep(0.2)
 
 	logger.info("stopping gracefully")
-	time.sleep(1)
