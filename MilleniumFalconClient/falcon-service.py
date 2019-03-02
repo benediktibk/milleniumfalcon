@@ -221,7 +221,7 @@ class Falcon:
 		
 		while current < sequenceLengthInMilliseconds:
 			logger.info('position ' + str(current) + 'ms')
-			time.sleep(iterationStepInMilliseconds)
+			time.sleep(iterationStepInMilliseconds/1000)
 			current = current = + iterationStepInMilliseconds
 			
 			if not self._peripherals.shouldRun():
