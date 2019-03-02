@@ -225,7 +225,11 @@ class Falcon:
 			current = current = + iterationStepInMilliseconds
 			
 			if not self._peripherals.shouldRun():
-				logger.info('sequence should stop')
+				logger.info('sequence should stop due to user input')
+				break
+			
+			if self._signalHandler.checkIfShouldBeStopped():
+				logger.info('sequence should stop due to system signal')
 				break
 		
 		self._audioPlayer.stop()
