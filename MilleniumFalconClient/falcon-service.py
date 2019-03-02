@@ -215,6 +215,9 @@ class Falcon:
 			self._sequenceExecuted = False
 			return
 			
+		if self._sequenceExecuted:
+			return
+			
 		logger.info('sequence should run')
 		self._audioPlayer.play('/usr/share/falcon/audio/take_off.wav')
 		sequenceLengthInSeconds = 2*60 + 3
