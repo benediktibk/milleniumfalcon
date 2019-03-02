@@ -91,7 +91,7 @@ class LedStrip:
 	def setPixelColor(self, pixel, color):
 		logger.info("setting color for pixel " + str(pixel))
 		if pixel < 0 or pixel >= self._ledCount:
-			raise ValueError('the pixel index must be within 0 and ' + self._ledCount)
+			raise ValueError('the pixel index must be within 0 and ' + str(self._ledCount))
 		self._ledStrip.setPixelColor(pixel, color)
 		self._ledStrip.show()
 		
@@ -220,7 +220,7 @@ class Falcon:
 		iterationStepInMilliseconds = 200
 		
 		while current < sequenceLengthInMilliseconds:
-			logger.info('position ' + current + 'ms')
+			logger.info('position ' + str(current) + 'ms')
 			time.sleep(iterationStepInMilliseconds)
 			current = current = + iterationStepInMilliseconds
 			
