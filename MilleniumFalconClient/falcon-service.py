@@ -218,12 +218,13 @@ class Falcon:
 		sequenceLengthInMilliseconds = sequenceLengthInSeconds*1000
 		current = 0
 		iterationStepInMilliseconds = 200
+		totalIterationSteps = sequenceLengthInMilliseconds / iterationStepInMilliseconds + 1
 		start = time.time()
 		
 		while (current - start)*1000 < sequenceLengthInMilliseconds:
 			current = time.time()
 			iterationStep = int((current - start)*1000/iterationStepInMilliseconds)
-			logger.info('iteration step ' + str(iterationStep))
+			logger.info('iteration step ' + str(iterationStep) + ' of ' + str(totalIterationSteps))
 			waitTime = (((iterationStep + 1) * iterationStepInMilliseconds)/1000 + start) - current
 			
 			#do stuff
