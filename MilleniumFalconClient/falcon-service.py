@@ -233,7 +233,9 @@ class Falcon:
 			logger.info('iteration step ' + str(iterationStep) + ' of ' + str(totalIterationSteps))
 			waitTime = (((iterationStep + 1) * iterationStepInMilliseconds)/1000 + start) - current
 			
-			#do stuff
+			driveValue = int((iterationStep % 10)/9*255)
+			for i in range(0, 10):
+				self._peripherals.setDrive(i, Color(0, 0, driveValue))
 			
 			logger.info('waiting for ' + '{:.2f}'.format(waitTime) + 's')
 			time.sleep(waitTime)
@@ -246,6 +248,7 @@ class Falcon:
 				logger.info('sequence should stop due to system signal')
 				break
 		
+		self._peripherals.turnOff()
 		self._audioPlayer.stop()
 		self._sequenceExecuted = True
 
