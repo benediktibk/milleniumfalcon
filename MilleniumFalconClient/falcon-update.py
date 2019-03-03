@@ -50,3 +50,7 @@ print("copy audio files")
 copyfile(sourcePath + "/MilleniumFalconClient/audio/bootup_sequence_initialized.wav", "/usr/share/falcon/audio/bootup_sequence_initialized.wav")
 copyfile(sourcePath + "/MilleniumFalconClient/audio/bootup_sequence_finished.wav", "/usr/share/falcon/audio/bootup_sequence_finished.wav")
 copyfile(sourcePath + "/MilleniumFalconClient/audio/take_off.wav", "/usr/share/falcon/audio/take_off.wav")
+
+print("copy sequence")
+copyfile(sourcePath + "/MilleniumFalconClient/sequence.csv", "/usr/share/falcon/sequence.csv")
+

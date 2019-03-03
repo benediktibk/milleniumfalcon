@@ -4,6 +4,7 @@ import signal
 import time
 import logging
 import pygame
+import re
 from gpiozero import Button,PWMLED,LED
 from ctypes import cdll, byref, create_string_buffer
 from math import exp
@@ -162,14 +163,61 @@ class Peripherals:
 	def shouldRun(self):
 		return self._start.is_pressed
 		
+class SequenceStep:
+	_turret = 0
+	_cockpit = 0
+	_drive = []
+	
+	def __init__(self, values)
+		self._turret = values[0]
+		self._cockpit = values[1]
+		driveLedCount = int(len(values)/3)
+		self._drive = [None] * driveLedCount
+		
+		for i in range(driveLedCount)
+			self._drive[i] = [values[2 + i*3], values[3 + i*3], values[4 + i*3]]
+	
+	def applyTo(self, peripherals)
+		peripherals.setTurret(self._turret)
+		peripherals.setCockpit(self._cockpit)
+		
+		for i in range(len(_drive)):
+			peripherals.setDrive(i, Color(drive[i][0], drive[i][1], drive[i][2])
+	
+class Sequence:
+	_steps = []
+	
+	def __init__(self, fileName)
+		sequenceFile = file.open(fileName, 'r')
+		header = sequenceFile.readline()
+		driveOccurences = re.findall('drive-red-[0-9]*', header)
+		driveLedCount = len(driveOccurences)
+		lines = sequenceFile.readlines()
+		lines = [x.strip() for x in lines]
+		_steps = [None] * len(lines)
+		
+		for i in range(len(lines)):
+			values = re.findall('[0-9]*', lines(i))
+			self._steps[i] = SequenceStep(values)		
+		
+		sequenceFile.close()
+		
+	def applyTo(self, peripherals, step)
+		self._steps[step].applyTo(peripherals)
+		
+	def getStepCount(self)
+		return len(self._steps)
+	
 class Falcon:
 	_sequenceExecuted = False
+	_iterationStepInMilliseconds = 200
 
 	def __init__(self, signalHandler):
 		logger.info("initializing led falcon")
 		self._peripherals = Peripherals()
 		self._audioPlayer = AudioPlayer()
 		self._signalHandler = signalHandler
+		self._sequence = Sequence('/usr/share/falcon/sequence.csv')
 		
 	def __enter__(self):
 		return self
@@ -220,24 +268,20 @@ class Falcon:
 			
 		logger.info('sequence should run')
 		self._audioPlayer.play('/usr/share/falcon/audio/take_off.wav')
-		sequenceLengthInSeconds = 2*60 + 3
-		sequenceLengthInMilliseconds = sequenceLengthInSeconds*1000
-		current = 0
-		iterationStepInMilliseconds = 200
-		totalIterationSteps = int(sequenceLengthInMilliseconds / iterationStepInMilliseconds) + 1
+		
 		start = time.time()
 		
-		while (current - start)*1000 < sequenceLengthInMilliseconds:
-			current = time.time()
-			iterationStep = int((current - start)*1000/iterationStepInMilliseconds)
-			logger.info('iteration step ' + str(iterationStep) + ' of ' + str(totalIterationSteps))
-			waitTime = (((iterationStep + 1) * iterationStepInMilliseconds)/1000 + start) - current
+		while True:
+			iterationStep = self.__calculateIterationStep(start)
 			
-			driveValue = int((iterationStep % 10)/9*255)
-			for i in range(0, 10):
-				self._peripherals.setDrive(i, Color(0, 0, driveValue))
+			if (iterationStep >= self._sequence.getStepCount())
+				break
 			
-			logger.info('waiting for ' + '{:.2f}'.format(waitTime) + 's')
+			logger.info('iteration step ' + str(iterationStep) + ' of ' + str(self._sequence.getStepCount()))
+			self._sequence.applyTo(self._peripherals, iterationStep)
+			
+			waitTime = (((iterationStep + 1) * self.__iterationStepInMilliseconds)/1000 + start) - current
+			logger.info('waiting for ' + '{:.3f}'.format(waitTime) + 's')
 			time.sleep(waitTime)
 			
 			if not self._peripherals.shouldRun():
@@ -251,6 +295,10 @@ class Falcon:
 		self._peripherals.turnOff()
 		self._audioPlayer.stop()
 		self._sequenceExecuted = True
+		
+	def __calculateIterationStep(self, start)
+		current = time.time()
+		return int((current - start)*1000/self._iterationStepInMilliseconds)
 
 if __name__ == '__main__':
 	signalHandler = SignalHandler()

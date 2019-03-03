@@ -61,7 +61,7 @@ for i in range(iterationSteps):
 
 maximumDriveValue = max(max(driveValuesNormalized))
 
-sequenceFile.write('iteration;turret;cockpit;')
+sequenceFile.write('turret;cockpit;')
 
 for i in range(driveLength):
 	sequenceFile.write('drive-red-' + str(i) + ';')
@@ -71,7 +71,6 @@ for i in range(driveLength):
 sequenceFile.write('\n')
 
 for i in range(iterationSteps):
-	sequenceFile.write(str(i) + ';')
 	sequenceFile.write(str(255) + ';')
 	sequenceFile.write(str(255) + ';')
 	
