@@ -317,6 +317,7 @@ class Falcon:
 			
 			current = time.time()
 			waitTime = (((iterationStep + 1) * self._iterationStepInMilliseconds)/1000 + start) - current
+			waitTime = max(waitTime, 0)
 			logger.info('waiting for ' + '{:.3f}'.format(waitTime) + 's')
 			time.sleep(waitTime)
 		
