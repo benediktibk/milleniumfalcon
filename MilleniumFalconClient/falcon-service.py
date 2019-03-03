@@ -307,6 +307,7 @@ class Falcon:
 			logger.info('iteration step ' + str(iterationStep) + ' of ' + str(self._sequence.getStepCount()))
 			self._sequence.applyTo(self._peripherals, iterationStep)
 			
+			current = time.time()
 			waitTime = (((iterationStep + 1) * self._iterationStepInMilliseconds)/1000 + start) - current
 			logger.info('waiting for ' + '{:.3f}'.format(waitTime) + 's')
 			time.sleep(waitTime)
