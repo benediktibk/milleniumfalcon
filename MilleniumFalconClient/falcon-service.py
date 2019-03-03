@@ -96,6 +96,18 @@ class LedStrip:
 		self._ledStrip.setPixelColor(pixel, color)
 		self._ledStrip.show()
 		
+	def setMultiplePixelColor(self, pixels, colors):
+		logger.info("setting color for multiple pixels")
+		
+		for i in range(len(pixels)):
+			pixel = pixels[i]
+			color = colors[i]
+			if pixel < 0 or pixel >= self._ledCount:
+				raise ValueError('the pixel index must be within 0 and ' + str(self._ledCount))
+			self._ledStrip.setPixelColor(pixel, color)
+			
+		self._ledStrip.show()
+
 class Peripherals:
 	_mainSwitch = LED(17)
 	_cockpit = PWMLED(27)
@@ -167,6 +179,9 @@ class Peripherals:
 	def setDrive(self, pixel, color):
 		self._drive.setPixelColor(pixel, color)
 		
+	def setCompleteDrive(self, pixels, colors):
+		self._drive.setMultiplePixelColor(pixels, colors)
+		
 	def shouldRun(self):
 		return self._start.is_pressed
 		
@@ -193,9 +208,9 @@ class SequenceStep:
 		peripherals.setCockpit(self._cockpit)
 		peripherals.setFront(self._front)
 		peripherals.setLandingGearAndRamp(self._landingGearAndRamp)
-		
-		for i in range(len(self._drive)):
-			peripherals.setDrive(i, Color(self._drive[i][0], self._drive[i][1], self._drive[i][2]))
+		pixels = range(len(self._drive))
+		colors = [Color(x[0], x[1], x[2]) for x in self._drive]		
+		peripherals.setCompleteDrive(pixels, colors)
 	
 class Sequence:
 	_steps = []
