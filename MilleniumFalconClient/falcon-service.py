@@ -101,6 +101,7 @@ class Peripherals:
 	_cockpit = PWMLED(27)
 	_turret = PWMLED(22)
 	_front = PWMLED(4)
+	_landingGearAndRamp = PWMLED(25)
 	_drive = LedStrip()
 	_start = Button(23)
 	
@@ -144,10 +145,16 @@ class Peripherals:
 		compensatedValue = self.compensateOutputCharacteristics(value)
 		self._front.value = compensatedValue
 		
+	def setLandingGearAndRamp(self, value):
+		logger.debug('setting value ' + '{:.2f}'.format(value) + ' for landing gear and ramp')
+		compensatedValue = self.compensateOutputCharacteristics(value)
+		self._landingGearAndRamp.value = compensatedValue
+		
 	def setAll(self, value):
 		self.setCockpit(value)
 		self.setTurret(value)
 		self.setFront(value)
+		self.setLandingGearAndRamp(value)
 		
 	def turnOff(self):
 		logger.info('turning main switch off')
@@ -166,20 +173,26 @@ class Peripherals:
 class SequenceStep:
 	_turret = 0
 	_cockpit = 0
+	_front = 0
+	_landingGearAndRamp = 0
 	_drive = []
 	
 	def __init__(self, values)
 		self._turret = values[0]
 		self._cockpit = values[1]
-		driveLedCount = int(len(values)/3)
+		self._front = values[2]
+		self._landingGearAndRamp = values[3]
+		driveLedCount = int((len(values) - 4)/3)
 		self._drive = [None] * driveLedCount
 		
 		for i in range(driveLedCount)
-			self._drive[i] = [values[2 + i*3], values[3 + i*3], values[4 + i*3]]
+			self._drive[i] = [values[4 + i*3], values[5 + i*3], values[6 + i*3]]
 	
 	def applyTo(self, peripherals)
 		peripherals.setTurret(self._turret)
 		peripherals.setCockpit(self._cockpit)
+		peripherals.setFront(self._front)
+		peripherals.setLandingGearAndRamp(self._landingGearAndRamp)
 		
 		for i in range(len(_drive)):
 			peripherals.setDrive(i, Color(drive[i][0], drive[i][1], drive[i][2])
@@ -259,7 +272,7 @@ class Falcon:
 		logger.info('finished boot sequence')
 		
 	def runOnce(self):
-		if not self._peripherals.shouldRun():
+		if not self._peripherals.shouldRun():n
 			self._sequenceExecuted = False
 			return
 			

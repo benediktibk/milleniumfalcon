@@ -46,7 +46,7 @@ driveColorBlue = 255
 driveColorRedBad = 255
 driveColorGreenBad = 0
 driveColorBlueBad = 0
-driveLength = 10
+driveLength = 39
 
 for i in range(iterationSteps):
 	start = i * iterationStepLengthInMs / 1000
@@ -61,7 +61,7 @@ for i in range(iterationSteps):
 
 maximumDriveValue = max(max(driveValuesNormalized))
 
-sequenceFile.write('turret;cockpit;')
+sequenceFile.write('turret;cockpit;front;landingGearAndRamp')
 
 for i in range(driveLength):
 	sequenceFile.write('drive-red-' + str(i) + ';')
@@ -71,8 +71,15 @@ for i in range(driveLength):
 sequenceFile.write('\n')
 
 for i in range(iterationSteps):
-	sequenceFile.write(str(255) + ';')
-	sequenceFile.write(str(255) + ';')
+	turretValue = 255
+	cockpitValue = 255
+	frontValue = 255
+	landingGearAndRampValue = 255
+	
+	sequenceFile.write(str(turretValue) + ';')
+	sequenceFile.write(str(cockpitValue) + ';')
+	sequenceFile.write(str(frontValue) + ';')
+	sequenceFile.write(str(landingGearAndRampValue) + ';')
 	
 	for j in range(driveLength):
 		driveValue = driveValuesNormalized[i][j] / maximumDriveValue
