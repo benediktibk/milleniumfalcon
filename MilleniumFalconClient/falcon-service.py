@@ -321,6 +321,9 @@ class Falcon:
 			logger.info('waiting for ' + '{:.3f}'.format(waitTime) + 's')
 			time.sleep(waitTime)
 		
+		for i in range(self._sequence.getDriveLedCount()):
+			self._peripherals.setDrive(i, Color(0, 0, 0))
+		
 		self._peripherals.turnOff()
 		self._audioPlayer.stop()
 		self._sequenceExecuted = True
