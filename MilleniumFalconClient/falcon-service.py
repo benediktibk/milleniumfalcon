@@ -233,7 +233,6 @@ class Falcon:
 		self._peripherals = Peripherals()
 		self._audioPlayer = AudioPlayer()
 		self._signalHandler = signalHandler
-		self._sequence = Sequence('/usr/share/falcon/sequence.csv')
 		
 	def __enter__(self):
 		return self
@@ -246,6 +245,8 @@ class Falcon:
 		logger.info('starting boot sequence')
 		self._audioPlayer.play('/usr/share/falcon/audio/bootup_sequence_initialized.wav')
 		time.sleep(2.4)
+		
+		self._sequence = Sequence('/usr/share/falcon/sequence.csv')
 		
 		for x in range(0, 10):
 			value = x/10
