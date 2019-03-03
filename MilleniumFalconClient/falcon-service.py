@@ -185,7 +185,7 @@ class SequenceStep:
 		driveLedCount = int((len(values) - 4)/3)
 		self._drive = [None] * driveLedCount
 		
-		for i in range(driveLedCount)
+		for i in range(driveLedCount):
 			self._drive[i] = [values[4 + i*3], values[5 + i*3], values[6 + i*3]]
 	
 	def applyTo(self, peripherals):
