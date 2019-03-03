@@ -60,9 +60,16 @@ for i in range(iterationSteps):
 	driveValuesNormalized[i] = driveValuePerLed
 
 maximumDriveValue = max(max(driveValuesNormalized))
-print(maximumDriveValue)
 
-sequenceFile.write('iteration;turret;cockpit;drive-red-00;drive-green-00;drive-blue-00;drive-red-01;drive-green-01;drive-blue-01;drive-red-02;drive-green-02;drive-blue-02;drive-red-03;drive-green-03;drive-blue-03;drive-red-04;drive-green-04;drive-blue-04;drive-red-05;drive-green-05;drive-blue-05;drive-red-06;drive-green-06;drive-blue-06;drive-red-07;drive-green-07;drive-blue-07;drive-red-08;drive-green-08;drive-blue-08;drive-red-09;drive-green-09;drive-blue-09\n')
+sequenceFile.write('iteration;turret;cockpit;')
+
+for i in range(driveLength):
+	sequenceFile.write('drive-red-' + str(i) + ';')
+	sequenceFile.write('drive-green-' + str(i) + ';')
+	sequenceFile.write('drive-blue-' + str(i) + ';')
+
+sequenceFile.write('\n')
+
 for i in range(iterationSteps):
 	sequenceFile.write(str(i) + ';')
 	sequenceFile.write(str(255) + ';')
@@ -72,5 +79,5 @@ for i in range(iterationSteps):
 		driveValue = driveValuesNormalized[i][j] / maximumDriveValue
 		sequenceFile.write(str(int(driveValue * driveColorRed)) + ';' + str(int(driveValue * driveColorGreen)) + ';' + str(int(driveValue * driveColorBlue)) + ';')
 	sequenceFile.write('\n')
-	
+
 sequenceFile.close()
