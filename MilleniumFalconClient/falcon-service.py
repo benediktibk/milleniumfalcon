@@ -209,7 +209,7 @@ class Sequence:
 		lines = sequenceFile.readlines()
 		lines = [x.strip() for x in lines]
 		iterationSteps = len(lines)
-		_steps = [None] * iterationSteps
+		self._steps = [None] * iterationSteps
 		
 		for i in range(iterationSteps):
 			logger.info('parsing iteration step ' + str(i) + ' of ' + str(iterationSteps))
