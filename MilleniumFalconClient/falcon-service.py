@@ -195,7 +195,7 @@ class SequenceStep:
 		peripherals.setLandingGearAndRamp(self._landingGearAndRamp)
 		
 		for i in range(len(_drive)):
-			peripherals.setDrive(i, Color(drive[i][0], drive[i][1], drive[i][2])
+			peripherals.setDrive(i, Color(drive[i][0], drive[i][1], drive[i][2]))
 	
 class Sequence:
 	_steps = []
