@@ -272,7 +272,7 @@ class Falcon:
 		logger.info('finished boot sequence')
 		
 	def runOnce(self):
-		if not self._peripherals.shouldRun():n
+		if not self._peripherals.shouldRun():
 			self._sequenceExecuted = False
 			return
 			
