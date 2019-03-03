@@ -309,7 +309,7 @@ class Falcon:
 		self._audioPlayer.stop()
 		self._sequenceExecuted = True
 		
-	def __calculateIterationStep(self, start)
+	def __calculateIterationStep(self, start):
 		current = time.time()
 		return int((current - start)*1000/self._iterationStepInMilliseconds)
 
