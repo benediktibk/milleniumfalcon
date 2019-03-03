@@ -210,7 +210,7 @@ class Sequence:
 		_steps = [None] * len(lines)
 		
 		for i in range(len(lines)):
-			values = re.findall('[0-9]*', lines(i))
+			values = re.findall('[0-9]*', lines[i])
 			self._steps[i] = SequenceStep(values)		
 		
 		sequenceFile.close()
