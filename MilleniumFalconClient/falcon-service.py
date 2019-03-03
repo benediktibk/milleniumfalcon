@@ -201,7 +201,7 @@ class Sequence:
 	_steps = []
 	
 	def __init__(self, fileName):
-		sequenceFile = file.open(fileName, 'r')
+		sequenceFile = open(fileName, 'r')
 		header = sequenceFile.readline()
 		driveOccurences = re.findall('drive-red-[0-9]*', header)
 		driveLedCount = len(driveOccurences)
