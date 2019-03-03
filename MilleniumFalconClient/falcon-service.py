@@ -178,10 +178,10 @@ class SequenceStep:
 	_drive = []
 	
 	def __init__(self, values):
-		self._turret = values[0]
-		self._cockpit = values[1]
-		self._front = values[2]
-		self._landingGearAndRamp = values[3]
+		self._turret = float(values[0])/255
+		self._cockpit = float(values[1])/255
+		self._front = float(values[2])/255
+		self._landingGearAndRamp = float(values[3])/255
 		driveLedCount = int((len(values) - 4)/3)
 		self._drive = [None] * driveLedCount
 		
@@ -199,13 +199,14 @@ class SequenceStep:
 	
 class Sequence:
 	_steps = []
+	_driveLedCount = 0
 	
 	def __init__(self, fileName):
 		logger.info('loading sequence from ' + fileName)
 		sequenceFile = open(fileName, 'r')
 		header = sequenceFile.readline()
 		driveOccurences = re.findall('drive-red-[0-9]*', header)
-		driveLedCount = len(driveOccurences)
+		self._driveLedCount = len(driveOccurences)
 		lines = sequenceFile.readlines()
 		lines = [x.strip() for x in lines]
 		iterationSteps = len(lines)
@@ -214,6 +215,7 @@ class Sequence:
 		for i in range(iterationSteps):
 			logger.info('parsing iteration step ' + str(i) + ' of ' + str(iterationSteps))
 			values = re.findall('[0-9]*', lines[i])
+			values = [int(x) for x in values]
 			self._steps[i] = SequenceStep(values)
 		
 		sequenceFile.close()
@@ -223,6 +225,9 @@ class Sequence:
 		
 	def getStepCount(self):
 		return len(self._steps)
+		
+	def getDriveLedCount(self):
+		return self._driveLedCount
 	
 class Falcon:
 	_sequenceExecuted = False
@@ -244,7 +249,6 @@ class Falcon:
 	def bootSequence(self):
 		logger.info('starting boot sequence')
 		self._audioPlayer.play('/usr/share/falcon/audio/bootup_sequence_initialized.wav')
-		time.sleep(2.4)
 		
 		self._sequence = Sequence('/usr/share/falcon/sequence.csv')
 		
@@ -272,7 +276,7 @@ class Falcon:
 			time.sleep(0.1)
 		self._peripherals.setLandingGearAndRamp(0)
 		
-		for x in range(0, 39):
+		for x in range(self._sequence.getDriveLedCount()):
 			self._peripherals.setDrive(x, Color(255, 255, 255))
 			time.sleep(0.1)
 			self._peripherals.setDrive(x, Color(0, 0, 0))
