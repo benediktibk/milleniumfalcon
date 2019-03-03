@@ -263,6 +263,12 @@ class Falcon:
 		self._peripherals.setTurret(0)
 		
 		for x in range(0, 10):
+			value = x/10
+			self._peripherals.setLandingGearAndRamp(value)
+			time.sleep(0.1)
+		self._peripherals.setLandingGearAndRamp(0)
+		
+		for x in range(0, 39):
 			self._peripherals.setDrive(x, Color(255, 255, 255))
 			time.sleep(0.1)
 			self._peripherals.setDrive(x, Color(0, 0, 0))
