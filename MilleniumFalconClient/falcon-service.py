@@ -214,7 +214,7 @@ class Sequence:
 		
 		for i in range(iterationSteps):
 			logger.info('parsing iteration step ' + str(i) + ' of ' + str(iterationSteps))
-			values = re.findall('[0-9]*', lines[i])
+			values = re.findall('[0-9]+', lines[i])
 			values = [int(x) for x in values]
 			self._steps[i] = SequenceStep(values)
 		
