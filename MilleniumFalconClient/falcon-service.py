@@ -201,17 +201,20 @@ class Sequence:
 	_steps = []
 	
 	def __init__(self, fileName):
+		logger.info('loading sequence from ' + fileName)
 		sequenceFile = open(fileName, 'r')
 		header = sequenceFile.readline()
 		driveOccurences = re.findall('drive-red-[0-9]*', header)
 		driveLedCount = len(driveOccurences)
 		lines = sequenceFile.readlines()
 		lines = [x.strip() for x in lines]
-		_steps = [None] * len(lines)
+		iterationSteps = len(lines)
+		_steps = [None] * iterationSteps
 		
-		for i in range(len(lines)):
+		for i in range(iterationSteps):
+			logger.info('parsing iteration step ' + str(i) + ' of ' + str(iterationSteps))
 			values = re.findall('[0-9]*', lines[i])
-			self._steps[i] = SequenceStep(values)		
+			self._steps[i] = SequenceStep(values)
 		
 		sequenceFile.close()
 		
