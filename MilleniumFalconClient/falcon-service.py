@@ -231,7 +231,6 @@ class Sequence:
 	
 class Falcon:
 	_sequenceExecuted = False
-	_iterationStepInMilliseconds = 200
 
 	def __init__(self, signalHandler):
 		logger.info("initializing led falcon")
@@ -324,8 +323,9 @@ class Falcon:
 		self._sequenceExecuted = True
 		
 	def __calculateIterationStep(self, start):
+		iterationStepInMilliseconds = 200
 		current = time.time()
-		return int((current - start)*1000/self._iterationStepInMilliseconds)
+		return int((current - start)*1000/iterationStepInMilliseconds)
 
 if __name__ == '__main__':
 	signalHandler = SignalHandler()
