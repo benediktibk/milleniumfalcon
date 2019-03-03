@@ -287,7 +287,7 @@ class Falcon:
 		while True:
 			iterationStep = self.__calculateIterationStep(start)
 			
-			if (iterationStep >= self._sequence.getStepCount())
+			if (iterationStep >= self._sequence.getStepCount()):
 				break
 			
 			logger.info('iteration step ' + str(iterationStep) + ' of ' + str(self._sequence.getStepCount()))
