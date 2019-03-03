@@ -177,7 +177,7 @@ class SequenceStep:
 	_landingGearAndRamp = 0
 	_drive = []
 	
-	def __init__(self, values)
+	def __init__(self, values):
 		self._turret = values[0]
 		self._cockpit = values[1]
 		self._front = values[2]
@@ -188,7 +188,7 @@ class SequenceStep:
 		for i in range(driveLedCount)
 			self._drive[i] = [values[4 + i*3], values[5 + i*3], values[6 + i*3]]
 	
-	def applyTo(self, peripherals)
+	def applyTo(self, peripherals):
 		peripherals.setTurret(self._turret)
 		peripherals.setCockpit(self._cockpit)
 		peripherals.setFront(self._front)
@@ -200,7 +200,7 @@ class SequenceStep:
 class Sequence:
 	_steps = []
 	
-	def __init__(self, fileName)
+	def __init__(self, fileName):
 		sequenceFile = file.open(fileName, 'r')
 		header = sequenceFile.readline()
 		driveOccurences = re.findall('drive-red-[0-9]*', header)
@@ -215,10 +215,10 @@ class Sequence:
 		
 		sequenceFile.close()
 		
-	def applyTo(self, peripherals, step)
+	def applyTo(self, peripherals, step):
 		self._steps[step].applyTo(peripherals)
 		
-	def getStepCount(self)
+	def getStepCount(self):
 		return len(self._steps)
 	
 class Falcon:
