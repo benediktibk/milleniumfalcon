@@ -63,7 +63,7 @@ class AudioPlayer:
 		pygame.mixer.music.stop()
 		
 class LedStrip:
-	_ledCount = 100
+	_ledCount = 39
 	_ledPin = 18
 	_ledFrequency = 800000
 	_ledDma = 10
