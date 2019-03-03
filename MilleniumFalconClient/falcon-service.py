@@ -14,7 +14,7 @@ logger = logging.getLogger()
 handler = logging.FileHandler("/var/log/falcon-service")
 formatter = logging.Formatter("%(asctime)s %(name)-12s %(levelname)-8s %(message)s")
 handler.setFormatter(formatter)
-logger.addHandler(handler)
+#logger.addHandler(handler)
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
 
