@@ -11,9 +11,9 @@ from math import exp
 from neopixel import Adafruit_NeoPixel, Color
 
 logger = logging.getLogger()
-handler = logging.FileHandler("/var/log/falcon-service")
+#handler = logging.FileHandler("/var/log/falcon-service")
 formatter = logging.Formatter("%(asctime)s %(name)-12s %(levelname)-8s %(message)s")
-handler.setFormatter(formatter)
+#handler.setFormatter(formatter)
 #logger.addHandler(handler)
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
@@ -304,14 +304,6 @@ class Falcon:
 			if (iterationStep >= self._sequence.getStepCount()):
 				break
 			
-			logger.info('iteration step ' + str(iterationStep) + ' of ' + str(self._sequence.getStepCount()))
-			self._sequence.applyTo(self._peripherals, iterationStep)
-			
-			current = time.time()
-			waitTime = (((iterationStep + 1) * self._iterationStepInMilliseconds)/1000 + start) - current
-			logger.info('waiting for ' + '{:.3f}'.format(waitTime) + 's')
-			time.sleep(waitTime)
-			
 			if not self._peripherals.shouldRun():
 				logger.info('sequence should stop due to user input')
 				break
@@ -319,6 +311,14 @@ class Falcon:
 			if self._signalHandler.checkIfShouldBeStopped():
 				logger.info('sequence should stop due to system signal')
 				break
+			
+			logger.info('iteration step ' + str(iterationStep) + ' of ' + str(self._sequence.getStepCount()))
+			self._sequence.applyTo(self._peripherals, iterationStep)
+			
+			current = time.time()
+			waitTime = (((iterationStep + 1) * self._iterationStepInMilliseconds)/1000 + start) - current
+			logger.info('waiting for ' + '{:.3f}'.format(waitTime) + 's')
+			time.sleep(waitTime)
 		
 		self._peripherals.turnOff()
 		self._audioPlayer.stop()
