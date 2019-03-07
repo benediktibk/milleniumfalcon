@@ -90,6 +90,12 @@ for i in range(iterationSteps):
 	frontValue = 255
 	landingGearAndRampValue = 255
 	
+	if start > 54 and start < 60 + 18:
+		startFromErrorStart = start - 54
+		withouFullSeconds = startFromErrorStart - int(startFromErrorStart)
+		if withouFullSeconds > 0.5:
+			cockpitValue = 0
+	
 	sequenceFile.write(str(turretValue) + ';')
 	sequenceFile.write(str(cockpitValue) + ';')
 	sequenceFile.write(str(frontValue) + ';')
