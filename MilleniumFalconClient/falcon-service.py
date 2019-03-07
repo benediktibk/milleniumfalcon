@@ -209,7 +209,7 @@ class SequenceStep:
 		peripherals.setFront(self._front)
 		peripherals.setLandingGearAndRamp(self._landingGearAndRamp)
 		pixels = range(len(self._drive))
-		colors = [Color(x[0], x[1], x[2]) for x in self._drive]		
+		colors = [Color(x[1], x[2], x[0]) for x in self._drive]		
 		peripherals.setCompleteDrive(pixels, colors)
 	
 class Sequence:
