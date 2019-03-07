@@ -62,12 +62,13 @@ for i in range(iterationSteps):
 	driveValuePerLed = [None] * driveLength
 	
 	for j in range(driveLength):
+		driveValueRandomized = driveValue
 		if start <= 60 + 55:
-			driveValue = driveValue + random.randrange(-50, 30)/10000
-			driveValue = max(0, driveValue)
-			driveValue = min(1, driveValue)
+			driveValueRandomized = driveValueRandomized + random.randrange(-50, 30)/1000
+			driveValueRandomized = max(0, driveValueRandomized)
+			driveValueRandomized = min(1, driveValueRandomized)
 		
-		driveValuePerLed[j] = driveValue
+		driveValuePerLed[j] = driveValueRandomized
 	
 	driveValuesNormalized[i] = driveValuePerLed
 
