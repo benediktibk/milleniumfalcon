@@ -101,7 +101,7 @@ for i in range(iterationSteps):
 		greenChannel = driveColorGreen
 		blueChannel = driveColorBlue
 		
-		useBadValue = random.randrange(0, 100) < 1
+		useBadValue = random.randrange(0, 200) < 1
 		if start <= 60 + 55 and useBadValue:
 			redChannel = driveColorRedBad
 			greenChannel = driveColorGreenBad
