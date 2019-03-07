@@ -2,6 +2,9 @@ from scipy.io import wavfile
 import scipy as sp
 import matplotlib.pylab as plt
 import numpy
+import random
+
+random.seed(42)
 
 print('read in source file')
 samplingRate, data = wavfile.read('../MilleniumFalconClient/audio/take_off.wav')
@@ -59,6 +62,11 @@ for i in range(iterationSteps):
 	driveValuePerLed = [None] * driveLength
 	
 	for j in range(driveLength):
+		if start <= 60 + 55:
+			driveValue = driveValue + random.randrange(-50, 30)/1000
+			driveValue = max(0, driveValue)
+			driveValue = min(1, driveValue)
+		
 		driveValuePerLed[j] = driveValue
 	
 	driveValuesNormalized[i] = driveValuePerLed
