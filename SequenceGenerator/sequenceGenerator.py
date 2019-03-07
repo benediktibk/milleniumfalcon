@@ -83,6 +83,7 @@ for i in range(driveLength):
 sequenceFile.write('\n')
 
 for i in range(iterationSteps):
+	start = i * iterationStepLengthInMs / 1000
 	turretValue = 255
 	cockpitValue = 255
 	frontValue = 255
@@ -95,7 +96,21 @@ for i in range(iterationSteps):
 	
 	for j in range(driveLength):
 		driveValue = driveValuesNormalized[i][j] / maximumDriveValue
-		sequenceFile.write(str(int(driveValue * driveColorRed)) + ';' + str(int(driveValue * driveColorGreen)) + ';' + str(int(driveValue * driveColorBlue)) + ';')
+		redChannel = driveColorRed
+		greenChannel = driveColorGreen
+		blueChannel = driveColorBlue
+		
+		useBadValue = random.randrange(0, 100) < 1
+		if start <= 60 + 55 and useBadValue:
+			redChannel = driveColorRedBad
+			greenChannel = driveColorGreenBad
+			blueChannel = driveColorBlueBad
+		
+		valueRed = driveValue * redChannel
+		valueGreen = driveValue * greenChannel
+		valueBlue = driveValue * blueChannel
+		
+		sequenceFile.write(str(int(valueRed)) + ';' + str(int(valueGreen)) + ';' + str(int(valueBlue)) + ';')
 	sequenceFile.write('\n')
 
 sequenceFile.close()
