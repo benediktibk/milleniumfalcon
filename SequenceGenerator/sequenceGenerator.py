@@ -52,6 +52,10 @@ for i in range(iterationSteps):
 	start = i * iterationStepLengthInMs / 1000
 	end = (i + 1) * iterationStepLengthInMs / 1000
 	driveValue = numpy.mean([abs(x) for x in driveValues[int(start*samplingRate):int(end*samplingRate)]])
+	
+	if start > 60 + 55:
+		driveValue = 1
+	
 	driveValuePerLed = [None] * driveLength
 	
 	for j in range(driveLength):
