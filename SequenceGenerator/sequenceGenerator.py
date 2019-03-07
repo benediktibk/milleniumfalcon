@@ -63,7 +63,7 @@ for i in range(iterationSteps):
 	
 	for j in range(driveLength):
 		if start <= 60 + 55:
-			driveValue = driveValue + random.randrange(-50, 30)/1000
+			driveValue = driveValue + random.randrange(-50, 30)/10000
 			driveValue = max(0, driveValue)
 			driveValue = min(1, driveValue)
 		
