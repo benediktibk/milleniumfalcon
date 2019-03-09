@@ -339,7 +339,7 @@ class Falcon:
 		for i in range(self._sequence.getDriveLedCount()):
 			self._peripherals.setDrive(i, Color(0, 0, 0))
 		
-		self._peripherals.turnOff()
+		self._peripherals.setAll(0)
 		self._audioPlayer.stop()
 		self._sequenceExecuted = True
 		
