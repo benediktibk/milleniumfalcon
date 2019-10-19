@@ -56,14 +56,14 @@ for i in range(iterationSteps):
 	end = (i + 1) * iterationStepLengthInMs / 1000
 	driveValue = numpy.mean([abs(x) for x in driveValues[int(start*samplingRate):int(end*samplingRate)]])
 	
-	if start > 60 + 55:
+	if start > 20:
 		driveValue = 1
 	
 	driveValuePerLed = [None] * driveLength
 	
 	for j in range(driveLength):
 		driveValueRandomized = driveValue
-		if start <= 60 + 55:
+		if start <= 20:
 			driveValueRandomized = driveValueRandomized + random.randrange(-50, 30)/1000
 			driveValueRandomized = max(0, driveValueRandomized)
 			driveValueRandomized = min(1, driveValueRandomized)
@@ -87,7 +87,7 @@ for i in range(iterationSteps):
 	start = i * iterationStepLengthInMs / 1000
 	turretValue = 255
 	cockpitValue = 255
-	frontValue = 255
+	frontValue = 150
 	landingGearAndRampValue = 255
 	
 	if start > 54 and start < 60 + 18:
@@ -95,6 +95,9 @@ for i in range(iterationSteps):
 		withouFullSeconds = startFromErrorStart - int(startFromErrorStart)
 		if withouFullSeconds > 0.5:
 			cockpitValue = 0
+	
+	if start > 60 + 55:
+		frontValue = 255
 	
 	sequenceFile.write(str(turretValue) + ';')
 	sequenceFile.write(str(cockpitValue) + ';')
